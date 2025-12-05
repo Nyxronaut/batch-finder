@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Finder</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background: #0d0d0d;
+            color: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            padding-top: 60px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #1a1a1a;
+            padding: 22px;
+            border-radius: 16px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #2a2a2a;
+            color: white;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #0066d6;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #262626;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .error {
+            color: #ff4444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Batch Finder</h2>
+
+        <input type="text" id="phoneInput" placeholder="Enter Phone Number">
+        <button onclick="searchStudent()">Search</button>
+
+        <div id="result" class="result-box"></div>
+    </div>
+
+    <script>
+
+        const data = {
+            
+  "9723624838": { "name": "Het Patel", "batch": "1", "id": "1" },
+  "8866887944": { "name": "Hetvi Tailor", "batch": "1", "id": "2" },
+  "8758369044": { "name": "Ayush Rathva", "batch": "1", "id": "3" },
+  "9898391196": { "name": "Ayushiba Rajput", "batch": "1", "id": "4" },
+  "7861872781": { "name": "Shah Soham", "batch": "1", "id": "5" },
+  "7990132748": { "name": "Yogesh Prajapati Jivaram", "batch": "1", "id": "6" },
+  "9825902438": { "name": "Poojan Prajapati", "batch": "1", "id": "7" },
+  "9875116053": { "name": "Dev Rajkamal Chauhan", "batch": "1", "id": "8" },
+  "6351908550": { "name": "Shwetanshu Mayank Shah", "batch": "1", "id": "9" },
+  "7990317978": { "name": "Dharmik Patel", "batch": "1", "id": "10" },
+  "7990810105": { "name": "Chundavat Aniketsinh Samirsinh", "batch": "1", "id": "11" },
+  "8866291879": { "name": "Purv Lole", "batch": "1", "id": "12" },
+  "9558927107": { "name": "Abhijeetsinh Bharatsinh Parmar", "batch": "1", "id": "13" },
+  "9773091651": { "name": "Rohan Thakkar", "batch": "1", "id": "14" },
+  "9316971961": { "name": "Valiya Vivekbhai Ashokbhai", "batch": "1", "id": "15" },
+  "9426171765": { "name": "Goradia Heer Vipul", "batch": "1", "id": "16" },
+  "8128671679": { "name": "Budha Rahul Rupsinh", "batch": "1", "id": "17" },
+  "8469193791": { "name": "Yash", "batch": "1", "id": "18" },
+  "9904878580": { "name": "Samarth", "batch": "1", "id": "19" },
+  "7990115954": { "name": "Bhavya N Gohil", "batch": "1", "id": "20" },
+  "8320449887": { "name": "Darji Sakshi Shambhubhai", "batch": "1", "id": "21" },
+  "8866370393": { "name": "Sujitkumar Ajitkumar Singh", "batch": "1", "id": "22" },
+  "9023159220": { "name": "JayminKumar Sindhi", "batch": "1", "id": "23" },
+  "9023158115": { "name": "Khamar Vaishvi Bhavinkumar", "batch": "1", "id": "24" },
+  "8780634957": { "name": "Daksh Mali", "batch": "1", "id": "25" },
+  "9824888987": { "name": "Rathod Nishant Ashokkumar", "batch": "1", "id": "26" },
+  "8347350310": { "name": "Gupta Nitesh", "batch": "1", "id": "27" },
+  "8511705565": { "name": "Piyush Tiwari", "batch": "1", "id": "28" },
+  "8780882857": { "name": "Kathan Patel", "batch": "1", "id": "29" },
+  "7203072607": { "name": "Sibdha Jaydeep Mehulkumar", "batch": "1", "id": "30" },
+  "8866263323": { "name": "Keya Maheshwari", "batch": "1", "id": "31" },
+  "9974200233": { "name": "Thalod Ashish Khemchand", "batch": "1", "id": "32" },
+  "9687574577": { "name": "Kapadiya Harsh Vinodbhai", "batch": "1", "id": "33" },
+
+  "7984036495": { "name": "Patel Charmi Ashvinkumar", "batch": "2", "id": "34" },
+  "9913092557": { "name": "Ayush Yogesh Pandey", "batch": "2", "id": "35" },
+  "9725880692": { "name": "Hasti Monapara", "batch": "2", "id": "36" },
+  "9328997754": { "name": "Patel Dhrumi Dahyalal", "batch": "2", "id": "37" },
+  "8780903713": { "name": "Parth Manish Vanikar", "batch": "2", "id": "38" },
+  "9909635625": { "name": "Patel Diya Ashishkumar", "batch": "2", "id": "39" },
+  "9313744148": { "name": "Zala Aryan Varjangbhai", "batch": "2", "id": "40" },
+  "6307543434": { "name": "Pritam Dey", "batch": "2", "id": "41" },
+  "9081731434": { "name": "Jayveersinh Rana", "batch": "2", "id": "42" },
+  "7435841740": { "name": "Mahek Malaviya", "batch": "2", "id": "43" },
+  "9313718002": { "name": "Patel Soyam Kalpeshbhai", "batch": "2", "id": "44" },
+  "9909577564": { "name": "Krishna Ray", "batch": "2", "id": "45" },
+  "9825485274": { "name": "Mridul Mithilesh Shukla", "batch": "2", "id": "46" },
+  "8320985677": { "name": "Patel Vansh Bhaveshkumar", "batch": "2", "id": "47" },
+  "8780737633": { "name": "Bosiya Priyansh R", "batch": "2", "id": "48" },
+  "8469097310": { "name": "Patel Aditya Jigneshbhai", "batch": "2", "id": "49" },
+  "9909300207": { "name": "Gautam Upadhyay", "batch": "2", "id": "50" },
+  "6351506257": { "name": "Nikhil Arvind Paithankar", "batch": "2", "id": "51" },
+  "8347094755": { "name": "Shekh Hammadraza Abbas", "batch": "2", "id": "52" },
+  "9714335103": { "name": "Jay Kotak", "batch": "2", "id": "53" },
+  "8347899452": { "name": "Ankit", "batch": "2", "id": "54" },
+  "8320064721": { "name": "Parmar Riddhi Sandipbhai", "batch": "2", "id": "55" },
+  "7043295025": { "name": "Mistry Hanee Chetankumar", "batch": "2", "id": "56" },
+  "7477686993": { "name": "A R Mahin", "batch": "2", "id": "57" },
+  "9801052833": { "name": "Anuj Kumar", "batch": "2", "id": "58" },
+  "9925640235": { "name": "Varma Satyam Parmeshwar", "batch": "2", "id": "59" },
+  "9725019934": { "name": "Vaghela Hitarth", "batch": "2", "id": "60" },
+  "8238442641": { "name": "Kalp Shah", "batch": "2", "id": "61" },
+  "9925236266": { "name": "Prit Vaghasiya", "batch": "2", "id": "62" },
+  "8866822966": { "name": "Siddiqui Rehan Mohammed Aarif", "batch": "2", "id": "63" },
+  "9313189985": { "name": "Mahi M. Solanki", "batch": "2", "id": "64" },
+  "7227078489": { "name": "Aditi Bhatt", "batch": "2", "id": "65" },
+  "9327666967": { "name": "Yasmin", "batch": "2", "id": "67" },
+
+  "6969696969": { "name": "Logesh", "batch": "3", "id": "68" },
+  "9664959019": { "name": "Ranjan Yadav", "batch": "3", "id": "69" },
+  "9714335103_2": { "name": "Jay Kotak", "batch": "3", "id": "70" },
+  "7990607367": { "name": "Sanandiya Yug Govindbhai", "batch": "3", "id": "71" },
+  "7016077625": { "name": "Venus Shivendra Sayani", "batch": "3", "id": "72" },
+  "9904476592": { "name": "Sakariya Uday Mukeshbhai", "batch": "3", "id": "73" },
+  "9265011955_2": { "name": "Shah Viyat Hepalbhai", "batch": "3", "id": "74" },
+  "9313394613": { "name": "Ashish Tomar", "batch": "3", "id": "75" },
+  "9825420378": { "name": "Riya RakeshKumar Bhatt", "batch": "3", "id": "76" },
+  "8128678373": { "name": "Sharma Prince", "batch": "3", "id": "77" },
+  "8320410219": { "name": "Divyesh Vaghela", "batch": "3", "id": "78" },
+  "9662776788": { "name": "Bhavya Budhbhatti", "batch": "3", "id": "79" },
+  "9104262086": { "name": "Nishtha Anil Kumar Dohare", "batch": "3", "id": "80" },
+  "7434988078": { "name": "Patel Het", "batch": "3", "id": "81" },
+  "8734890363": { "name": "Harsh Patel", "batch": "3", "id": "82" },
+  "9274247866": { "name": "Tushang Pandit", "batch": "3", "id": "83" },
+  "9601982943_2": { "name": "Patel Vedika Dilipkumar", "batch": "3", "id": "84" },
+  "9265981186": { "name": "Gajera Jensi Dineshbhai", "batch": "3", "id": "85" },
+  "9773190840": { "name": "Alisha Singh", "batch": "3", "id": "86" },
+  "9537394588": { "name": "Pratham Mewada", "batch": "3", "id": "87" },
+  "rose": { "name": "Rose", "batch": "3", "id": "88" },
+  "8347899452_2": { "name": "Ankit", "batch": "3", "id": "89" },
+  "9979898542": { "name": "Patel Saumya Bijalkumar", "batch": "3", "id": "90" },
+  "8866263323_2": { "name": "Keya Maheshwari", "batch": "3", "id": "91" },
+  "7698259032": { "name": "Vyas Hitarth Bhaveshbhai", "batch": "3", "id": "92" },
+  "8780634957_2": { "name": "Daksh R. Mali", "batch": "3", "id": "93" },
+  "8320027085": { "name": "Aneerudh Solanki", "batch": "3", "id": "94" },
+  "9974388056": { "name": "Fanat Diya Harshadbhai", "batch": "3", "id": "95" },
+  "9484474639": { "name": "Chirag Bihola", "batch": "3", "id": "96" },
+  "8866459776": { "name": "Patel Jaitra Sanjaykumar", "batch": "3", "id": "97" },
+  "9313894613": { "name": "Pranay Kirankumar Patel", "batch": "3", "id": "98" },
+  "6355815788": { "name": "Jain Vishal Deepak", "batch": "3", "id": "99" },
+  "9157006373": { "name": "Asodiya Harmish Bharatkumar", "batch": "3", "id": "100" },
+
+  "7016469940": { "name": "Akshar Mistry", "batch": "4", "id": "101" },
+  "6354993731": { "name": "Patel Maitri", "batch": "4", "id": "102" },
+  "9227108724": { "name": "Modi Shubham Hareharbhai", "batch": "4", "id": "103" },
+  "9016191244": { "name": "Tarbundiya Mitesh C.", "batch": "4", "id": "104" },
+  "7016597161": { "name": "Parkhiya Mahi Ashvinbhai", "batch": "4", "id": "105" },
+  "7862967434": { "name": "Palak Raval", "batch": "4", "id": "106" },
+  "9484598264": { "name": "Shah Aanshi Ashvinkumar", "batch": "4", "id": "107" },
+  "9327354653": { "name": "Sahil Sagathiya", "batch": "4", "id": "108" },
+  "7600269543": { "name": "Patel Aryan Bhanuprasad", "batch": "4", "id": "109" },
+  "9998761325": { "name": "Pal Patel", "batch": "4", "id": "110" },
+  "9327445320": { "name": "Aneja Zeel Sunilkumar", "batch": "4", "id": "111" },
+  "9265011955_3": { "name": "Shah Viyat Hepalbhai", "batch": "4", "id": "112" },
+  "7874785594": { "name": "Pradeep Kandari", "batch": "4", "id": "113" },
+  "7600179298": { "name": "Neel Suvarna", "batch": "4", "id": "114" },
+  "8868991119": { "name": "Aryan Saklani", "batch": "4", "id": "115" },
+  "9173919391": { "name": "Patel Shivam Harshadbhai", "batch": "4", "id": "116" },
+  "6351759943": { "name": "Patel Hetvi Satishbhai", "batch": "4", "id": "117" },
+  "8160688157": { "name": "Harishree Rajyaguru", "batch": "4", "id": "118" },
+  "9909790560": { "name": "Vraj Pathak", "batch": "4", "id": "119" },
+  "9429027754": { "name": "Shah Bhavya Himanshu", "batch": "4", "id": "120" },
+  "8758290927": { "name": "Vikash Kumar Prasad", "batch": "4", "id": "121" },
+  "9408408435": { "name": "Brihati Vyas", "batch": "4", "id": "122" },
+  "9601982943_3": { "name": "Patel Vedika Dilipkumar", "batch": "4", "id": "123" },
+  "6352733159": { "name": "Dhimmar Krish Hitendrakumar", "batch": "4", "id": "124" },
+  "9313890095": { "name": "Laksh Shah", "batch": "4", "id": "125" },
+  "9724562215": { "name": "Vishwakarma Pravinkumar Pavankumar", "batch": "4", "id": "126" },
+  "9274245518": { "name": "Pranshu Dave", "batch": "4", "id": "127" },
+  "9328480273": { "name": "Aryan Yadav", "batch": "4", "id": "128" },
+  "6355438236": { "name": "Daksh Mehta", "batch": "4", "id": "129" },
+  "9257590692": { "name": "Gojariya Vishva Priyeshbhai", "batch": "4", "id": "130" },
+  "7383474574": { "name": "Sojitra Armi Kalpeshbhai", "batch": "4", "id": "131" },
+  "9023193365": { "name": "Lanka Praharshith", "batch": "4", "id": "132" },
+  "9173723777": { "name": "Anvesh Jha", "batch": "4", "id": "133" }
+
+
+        };
+
+        function searchStudent() {
+            const phone = document.getElementById("phoneInput").value.trim();
+            const resultBox = document.getElementById("result");
+
+            if (data[phone]) {
+                const s = data[phone];
+                resultBox.innerHTML = `
+                    <strong>Name:</strong> ${s.name}<br>
+                    <strong>Batch:</strong> ${s.batch}<br>
+                    <strong>ID:</strong> ${s.id}
+                `;
+                resultBox.classList.remove("error");
+                resultBox.style.display = "block";
+            } else {
+                resultBox.innerHTML = "No record found.";
+                resultBox.classList.add("error");
+                resultBox.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
